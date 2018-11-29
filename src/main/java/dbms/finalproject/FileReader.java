@@ -29,11 +29,11 @@ public class FileReader {
                 {
                     try {
                         PreparedStatement prepStmt = db.getConnection().prepareStatement(sql);
-                        prepStmt.setString(1, record.get("finalproject.dbms.fall.CountryObj"));
+                        prepStmt.setString(1, record.get("Country"));
                         prepStmt.setString(2, record.get("Subject Descriptor"));
                         prepStmt.setString(3, record.get("Subject Notes"));
                         prepStmt.setString(4, record.get("Units"));
-                        prepStmt.setString(5, record.get("dbms.finalproject.CountryObj/Series-specific Notes"));
+                        prepStmt.setString(5, record.get("Country/Series-specific Notes"));
                         prepStmt.setString(6, record.get("Scale"));
                         prepStmt.setInt(7, 1971+i);
                         prepStmt.setDouble(8, Double.parseDouble(record.get(i)));

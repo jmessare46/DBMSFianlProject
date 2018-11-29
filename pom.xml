@@ -7,10 +7,37 @@
     <groupId>databasesystem.finalproject</groupId>
     <artifactId>databasesystem.finalproject</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
     <build>
-
+        <!-- To define the plugin version in your parent POM -->
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.1.0</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <!-- To use the plugin goals in your POM or parent POM -->
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>dbms.finalproject.Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
+
     <dependencies>
         <!-- https://mvnrepository.com/artifact/postgresql/postgresql -->
         <dependency>
@@ -30,6 +57,5 @@
             <artifactId>commons-cli</artifactId>
             <version>1.4</version>
         </dependency>
-
     </dependencies>
 </project>
