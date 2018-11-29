@@ -81,6 +81,35 @@ public class TerrorDAO implements Terror
         }
     }
 
+    public void countryAttack( String country ) throws SQLException
+    {
+        String sql = "SELECT * FROM terevent WHERE country = ?";
+        PreparedStatement prepStmt = db.getConnection().prepareStatement(sql);
+        prepStmt.setString(1, country);
+        ResultSet rs = prepStmt.executeQuery();
+        ArrayList<TerrorObj> terrorEvents = new ArrayList<TerrorObj>();
+        System.out.println(String.format("%35s %10s %10s", "Country", "Count", "Year" ));
+        System.out.println("---------------------------------------------------------");
+        int year = 1970;
+        int tempYear = year;
+        int count = 0;
+        while(rs.next())
+        {
+            tempYear = rs.getInt("year");
+            if(year == tempYear)
+            {
+                count++;
+            }
+            else
+            {
+                System.out.println(String.format("%35s %10s %10s", country, count, year));
+                count = 0;
+                year = tempYear;
+            }
+        }
+        System.out.println(String.format("%35s %10s %10s", country, count, year));
+    }
+
     public void delete(TerrorObj event) throws SQLException
     {
         String sql = "DELETE FROM terevent WHERE event_id = ?";

@@ -46,7 +46,6 @@ public class Main {
             else if( cmd.hasOption("c") )
             {
                 try {
-                    System.out.println("Terror Count");
                     TerrorDAO terrorDAO = new TerrorDAO();
                     terrorDAO.countryAttack(cmd.getOptionValue("c"));
                 } catch ( SQLException e ) {
