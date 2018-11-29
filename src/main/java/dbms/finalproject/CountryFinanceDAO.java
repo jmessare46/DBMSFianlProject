@@ -93,6 +93,27 @@ public class CountryFinanceDAO implements CountryFinance {
         }
     }
 
+    public void countryGDPvTerror(int year, DatabaseConnector db, String country ) throws SQLException
+    {
+        String sql = "SELECT DISTINCT countryfinance.country, avg(countryfinance.amount) as gdp, terrorcount.num " +
+                "FROM countryfinance, (SELECT count(*) as num, year, country FROM terevent GROUP BY terevent.year, terevent.country) as terrorcount " +
+                "WHERE countryfinance.year = ? " +
+                "AND countryfinance.subject = 'Gross domestic product, constant prices'" +
+                "AND unit = 'Percent change' AND terrorcount.year = countryfinance.year " +
+                "AND terrorcount.country = countryfinance.country " +
+                "GROUP BY countryfinance.country, unit, terrorcount.num;";
+        PreparedStatement prepStmt = db.getConnection().prepareStatement(sql);
+        prepStmt.setInt(1, year);
+
+        ResultSet rs = prepStmt.executeQuery();
+        System.out.println(String.format("%35s %24s %15s", "Country", "GDP Change", "Terror Attacks" ));
+        System.out.println("----------------------------------------------------------------------------");
+
+        while(rs.next()) {
+            System.out.println(String.format("%35s %24s %15s", rs.getString(1), rs.getString(2), rs.getString(3)));
+        }
+    }
+
     public void delete(CountryObj country) throws SQLException {
         String sql = "DELETE FROM countryfinance WHERE country = ? AND subject = ? AND year = ?";
         PreparedStatement prepStmt = db.getConnection().prepareStatement(sql);
