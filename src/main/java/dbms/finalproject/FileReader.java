@@ -20,6 +20,9 @@ public class FileReader {
 
     public void loadCountryFinance() {
         try {
+            Statement st = db.getConnection().createStatement();
+            st.execute("TRUNCATE TABLE countryfinance CONTINUE IDENTITY RESTRICT");
+
             Reader in = new java.io.FileReader(econCSV);
             Iterable<CSVRecord> records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(in);
             String sql = "INSERT INTO countryfinance (country, subject, subjectdes, unit, description, scale, year, amount) VALUES (?,?,?,?,?,?,?,?)";
@@ -52,6 +55,8 @@ public class FileReader {
     public void loadTerrorEvent() {
 
         try {
+            Statement st = db.getConnection().createStatement();
+            st.execute("TRUNCATE TABLE terevent CONTINUE IDENTITY RESTRICT");
             Reader in = new java.io.FileReader(terrorCSV);
             Iterable<CSVRecord> records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(in);
 
@@ -79,6 +84,9 @@ public class FileReader {
 
     public void loadTargets() {
         try {
+            Statement st = db.getConnection().createStatement();
+            st.execute("TRUNCATE TABLE target CONTINUE IDENTITY RESTRICT");
+
             Reader in = new java.io.FileReader(terrorCSV);
             Iterable<CSVRecord> records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(in);
 
@@ -102,6 +110,9 @@ public class FileReader {
     public void loadAttackers()
     {
         try {
+            Statement st = db.getConnection().createStatement();
+            st.execute("TRUNCATE TABLE attacker CONTINUE IDENTITY RESTRICT");
+
             Reader in = new java.io.FileReader(terrorCSV);
             Iterable<CSVRecord> records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(in);
             for (CSVRecord record : records) {
