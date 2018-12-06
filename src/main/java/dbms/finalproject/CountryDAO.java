@@ -3,7 +3,7 @@ package dbms.finalproject;
 import java.sql.SQLException;
 import java.util.List;
 
-public interface CountryPopulation
+public interface CountryDAO
 {
     public CountryFinance getCountry(int uid) throws SQLException;
 

@@ -12,7 +12,7 @@ public class CountryFinance
     private Integer uid;
 
 
-    public CountryFinance(String country, String subjectDescription, String unit, String scale, String notes, Integer year, Double value, Integer uid) {
+    public CountryFinance(String country, String subjectDescription, String unit, String scale, String notes, Integer year, Double value, Integer uid ) {
         this.country = country;
         this.subjectDescription = subjectDescription;
         this.unit = unit;
@@ -21,6 +21,10 @@ public class CountryFinance
         this.year = year;
         this.value = value;
         this.uid = uid;
+    }
+
+    public Integer getUid() {
+        return uid;
     }
 
     public String getCountry() {

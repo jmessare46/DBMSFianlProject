@@ -6,16 +6,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CountryPopulationDAO implements CountryDAO
+public class CountryGDPDAO implements CountryDAO
 {
     private DatabaseConnector db;
 
-    public CountryPopulationDAO() {
+    public CountryGDPDAO() {
         this.db = new DatabaseConnector();
     }
 
     public CountryFinance getCountry(int uid) throws SQLException {
-        String sql = "SELECT * FROM countrypopulation WHERE uid = ?";
+        String sql = "SELECT * FROM countrygdp WHERE uid = ?";
         PreparedStatement prepStmt = db.getConnection().prepareStatement(sql);
         prepStmt.setInt(1, uid);
         ResultSet rs = prepStmt.executeQuery();
@@ -29,7 +29,7 @@ public class CountryPopulationDAO implements CountryDAO
     }
 
     public List<CountryFinance> getAll() throws SQLException {
-        String sql = "SELECT * FROM countrypopulation";
+        String sql = "SELECT * FROM countrygdp";
         PreparedStatement prepStmt = db.getConnection().prepareStatement(sql);
         ResultSet rs = prepStmt.executeQuery();
         ArrayList<CountryFinance> countries = new ArrayList<CountryFinance>();
@@ -47,7 +47,7 @@ public class CountryPopulationDAO implements CountryDAO
     }
 
     public void save(CountryFinance contry) throws SQLException {
-        String sql = "INSERT INTO countrypopulation (country, subjectdes, unit, scale, notes, year, value) VALUES (?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO countrygdp (country, subjectdes, unit, scale, notes, year, value) VALUES (?,?,?,?,?,?,?)";
         PreparedStatement prepStmt = db.getConnection().prepareStatement(sql);
 
         prepStmt.setString(1, contry.getCountry());
@@ -64,7 +64,7 @@ public class CountryPopulationDAO implements CountryDAO
     public void update(CountryFinance country, String[] params) throws SQLException {
         for( String param : params )
         {
-            String sql = "UPDATE countrypopulation SET ? = ? WHERE uid = ?";
+            String sql = "UPDATE countrygdp SET ? = ? WHERE uid = ?";
             PreparedStatement prepStmt = db.getConnection().prepareStatement(sql);
 
             prepStmt.setString(1, param);
@@ -91,7 +91,7 @@ public class CountryPopulationDAO implements CountryDAO
     }
 
     public void delete(CountryFinance country) throws SQLException {
-        String sql = "DELETE FROM countrypopulation WHERE uid = ?";
+        String sql = "DELETE FROM countrygdp WHERE uid = ?";
         PreparedStatement prepStmt = db.getConnection().prepareStatement(sql);
         prepStmt.setDouble(1, country.getUid());
         prepStmt.executeUpdate();
