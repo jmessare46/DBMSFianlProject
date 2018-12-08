@@ -1,13 +1,14 @@
 package dbms.finalproject;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public interface CountryDAO
 {
     public CountryFinance getCountry(int uid) throws SQLException;
 
-    public List<CountryFinance> getAll() throws SQLException;
+    public ArrayList<CountryFinance> getAll() throws SQLException;
 
     public void save(CountryFinance country) throws SQLException;
 

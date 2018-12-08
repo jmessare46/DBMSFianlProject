@@ -24,7 +24,7 @@ public class AttackerDAO implements Attacker {
         return null;
     }
 
-    public List<AttackerObj> getAll() throws SQLException {
+    public ArrayList<AttackerObj> getAll() throws SQLException {
         String sql = "SELECT * FROM attacker";
         PreparedStatement prepStmt = db.getConnection().prepareStatement(sql);
         ResultSet rs = prepStmt.executeQuery();
@@ -78,6 +78,26 @@ public class AttackerDAO implements Attacker {
 
             prepStmt.executeUpdate();
         }
+    }
+
+    public void damageTotal( String country, int year ) throws SQLException
+    {
+        String sql = "SELECT SUM(damagecost) as damage, year, country FROM attacker, terevent " +
+                "WHERE id = event_id AND country = ? AND year = ? GROUP BY year, country";
+        PreparedStatement prepStmt = db.getConnection().prepareStatement(sql);
+        prepStmt.setString(1, country);
+        prepStmt.setInt(2, year);
+        ResultSet rs = prepStmt.executeQuery();
+        while (rs.next())
+        {
+            System.out.println(rs.getString(1));
+            System.out.println(rs.getString(2));
+            System.out.println(rs.getString(3));
+//            System.out.println(rs.getString(2));
+//            System.out.println(rs.getString(3));
+//            rs.getString("nationality"), rs.getString("location"));
+        }
+
     }
 
     public void delete(AttackerObj attacker) throws SQLException {

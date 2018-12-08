@@ -4,7 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class CountryRevenueDAO implements CountryDAO
 {
@@ -28,7 +27,7 @@ public class CountryRevenueDAO implements CountryDAO
         return null;
     }
 
-    public List<CountryFinance> getAll() throws SQLException {
+    public ArrayList<CountryFinance> getAll() throws SQLException {
         String sql = "SELECT * FROM countryrevenue";
         PreparedStatement prepStmt = db.getConnection().prepareStatement(sql);
         ResultSet rs = prepStmt.executeQuery();
@@ -44,6 +43,23 @@ public class CountryRevenueDAO implements CountryDAO
         }
 
         return countries;
+    }
+
+    public CountryFinance getYearData( String country, int year ) throws SQLException {
+        String sql = "SELECT * FROM countryrevenue WHERE country = ? AND year = ?";
+        PreparedStatement prepStmt = db.getConnection().prepareStatement(sql);
+        prepStmt.setString(1, country);
+        prepStmt.setInt(2, year);
+        ResultSet rs = prepStmt.executeQuery();
+        if (rs.next())
+        {
+            return new CountryFinance(rs.getString("country"),
+                    rs.getString("subjectdes"), rs.getString("unit"),
+                    rs.getString("scale"), rs.getString("notes"), rs.getInt("year"),
+                    rs.getDouble("value"), rs.getInt("uid"));
+        }
+
+        return null;
     }
 
     public void save(CountryFinance contry) throws SQLException {
@@ -70,23 +86,27 @@ public class CountryRevenueDAO implements CountryDAO
             prepStmt.setString(1, param);
             prepStmt.setDouble(3, country.getUid());
 
-            if(param.compareTo("country") == 0) {
-                prepStmt.setString(2, country.getCountry());
-            } else if(param.compareTo("subjectdes") == 0) {
-                prepStmt.setString(2, country.getSubjectDescription());
-            } else if(param.compareTo("unit") == 0) {
-                prepStmt.setString(2, country.getUnit());
-            } else if(param.compareTo("scale") == 0) {
-                prepStmt.setString(2, country.getScale());
-            } else if(param.compareTo("notes") == 0) {
-                prepStmt.setString(2, country.getNotes());
-            } else if(param.compareTo("year") == 0) {
-                prepStmt.setInt(2, country.getYear());
-            } else if(param.compareTo("value") == 0) {
-                prepStmt.setDouble(2, country.getValue());
-            }
+            checkParam(country, param, prepStmt);
 
             prepStmt.executeUpdate();
+        }
+    }
+
+    static void checkParam(CountryFinance country, String param, PreparedStatement prepStmt) throws SQLException {
+        if(param.compareTo("country") == 0) {
+            prepStmt.setString(2, country.getCountry());
+        } else if(param.compareTo("subjectdes") == 0) {
+            prepStmt.setString(2, country.getSubjectDescription());
+        } else if(param.compareTo("unit") == 0) {
+            prepStmt.setString(2, country.getUnit());
+        } else if(param.compareTo("scale") == 0) {
+            prepStmt.setString(2, country.getScale());
+        } else if(param.compareTo("notes") == 0) {
+            prepStmt.setString(2, country.getNotes());
+        } else if(param.compareTo("year") == 0) {
+            prepStmt.setInt(2, country.getYear());
+        } else if(param.compareTo("value") == 0) {
+            prepStmt.setDouble(2, country.getValue());
         }
     }
 

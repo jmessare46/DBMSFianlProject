@@ -28,7 +28,7 @@ public class CountryPopulationDAO implements CountryDAO
         return null;
     }
 
-    public List<CountryFinance> getAll() throws SQLException {
+    public ArrayList<CountryFinance> getAll() throws SQLException {
         String sql = "SELECT * FROM countrypopulation";
         PreparedStatement prepStmt = db.getConnection().prepareStatement(sql);
         ResultSet rs = prepStmt.executeQuery();
@@ -70,21 +70,7 @@ public class CountryPopulationDAO implements CountryDAO
             prepStmt.setString(1, param);
             prepStmt.setDouble(3, country.getUid());
 
-            if(param.compareTo("country") == 0) {
-                prepStmt.setString(2, country.getCountry());
-            } else if(param.compareTo("subjectdes") == 0) {
-                prepStmt.setString(2, country.getSubjectDescription());
-            } else if(param.compareTo("unit") == 0) {
-                prepStmt.setString(2, country.getUnit());
-            } else if(param.compareTo("scale") == 0) {
-                prepStmt.setString(2, country.getScale());
-            } else if(param.compareTo("notes") == 0) {
-                prepStmt.setString(2, country.getNotes());
-            } else if(param.compareTo("year") == 0) {
-                prepStmt.setInt(2, country.getYear());
-            } else if(param.compareTo("value") == 0) {
-                prepStmt.setDouble(2, country.getValue());
-            }
+            CountryRevenueDAO.checkParam(country, param, prepStmt);
 
             prepStmt.executeUpdate();
         }

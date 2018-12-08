@@ -25,7 +25,7 @@ public class TargetDAO implements Target {
         return null;
     }
 
-    public List<TargetObj> getAll() throws SQLException {
+    public ArrayList<TargetObj> getAll() throws SQLException {
         String sql = "SELECT * FROM target";
         PreparedStatement prepStmt = db.getConnection().prepareStatement(sql);
         ResultSet rs = prepStmt.executeQuery();

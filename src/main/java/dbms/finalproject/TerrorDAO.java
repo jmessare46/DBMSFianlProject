@@ -23,12 +23,12 @@ public class TerrorDAO implements Terror
         ResultSet rs = prepStmt.executeQuery();
         if(rs.next())
         {
-            return new TerrorObj(rs.getDouble("event_id"), rs.getString("country"), rs.getString("city"), rs.getString("method"), new Date(rs.getInt("year"), rs.getInt("month"), rs.getInt("day")));
+            return new TerrorObj(rs.getDouble("event_id"), rs.getString("country"), rs.getString("city"), rs.getString("method"), rs.getInt("year"), rs.getInt("month"), rs.getInt("day"));
         }
         return null;
     }
 
-    public List<TerrorObj> getAll() throws SQLException
+    public ArrayList<TerrorObj> getAll() throws SQLException
     {
         String sql = "SELECT * FROM terevent";
         PreparedStatement prepStmt = db.getConnection().prepareStatement(sql);
@@ -36,7 +36,7 @@ public class TerrorDAO implements Terror
         ArrayList<TerrorObj> events = new ArrayList<TerrorObj>();
         while (rs.next())
         {
-            TerrorObj event = new TerrorObj(rs.getDouble("event_id"), rs.getString("country"), rs.getString("city"), rs.getString("method"), new Date(rs.getInt("year"), rs.getInt("month"), rs.getInt("day")));
+            TerrorObj event = new TerrorObj(rs.getDouble("event_id"), rs.getString("country"), rs.getString("city"), rs.getString("method"), rs.getInt("year"), rs.getInt("month"), rs.getInt("day"));
             events.add(event);
         }
 
@@ -45,14 +45,16 @@ public class TerrorDAO implements Terror
 
     public void save(TerrorObj event) throws SQLException
     {
-        String sql = "INSERT INTO terevent (event_id, country, city, method, date) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO terevent (event_id, country, city, method, year, month, day) VALUES (?,?,?,?,?,?,?)";
         PreparedStatement prepStmt = db.getConnection().prepareStatement(sql);
 
         prepStmt.setDouble(1, event.getId());
         prepStmt.setString(2, event.getCountry());
         prepStmt.setString(3, event.getCity());
         prepStmt.setString(4, event.getMethod());
-        prepStmt.setDate(5, event.getDate());
+        prepStmt.setInt(5, event.getYear());
+        prepStmt.setInt(6, event.getMonth());
+        prepStmt.setInt(7, event.getDay());
 
         prepStmt.executeUpdate();
     }
@@ -73,8 +75,12 @@ public class TerrorDAO implements Terror
                 prepStmt.setString(2, event.getCity());
             } else if(param.compareTo("method") == 0) {
                 prepStmt.setString(2, event.getMethod());
-            } else if(param.compareTo("date") == 0) {
-                prepStmt.setDate(2, event.getDate());
+            } else if(param.compareTo("year") == 0) {
+                prepStmt.setInt(2, event.getYear());
+            } else if(param.compareTo("month") == 0) {
+                prepStmt.setInt(2, event.getMonth());
+            } else if(param.compareTo("day") == 0) {
+                prepStmt.setInt(2, event.getDay());
             }
 
             prepStmt.executeUpdate();
